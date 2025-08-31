@@ -3,19 +3,19 @@
 ## Backend
 
 - Install dependencies
-  `npm install`
+  - `npm install`
 - Install FastAPI, Weaviate, Uvicorn, fitz, PyMuPDF
-  `pip install fastapi weaviate-client uvicorn fitz pymupdf`
+  - `pip install fastapi weaviate-client uvicorn fitz pymupdf`
 - Start Ollama
-  `ollama serve`
+  - `ollama serve`
 - Pull the Ollama models
-  `ollama pull nomic-embed-text`
-  `ollama pull llama3.2`
+  - `ollama pull nomic-embed-text`
+  - `ollama pull llama3.2`
 - Run Weaviate
-  `docker-compose up`
+  - `docker-compose up`
 - Run the FastAPI app with Uvicorn
-  `cd backend`
-  `uvicorn main:app --reload`
+  - `cd backend`
+  - `uvicorn main:app --reload`
 
 ## Useful Weaviate Documentation
 
