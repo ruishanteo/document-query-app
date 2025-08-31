@@ -11,7 +11,16 @@ const Query = () => {
     setQuery(e.target.value);
   };
 
+  const cleanResponse = (text) => {
+    // Remove bullet points, extra line spaces, and trim the text
+    return text
+      .replace(/^\s*[-*]\s+/gm, "") // Remove bullet points (e.g., "-", "*")
+      .replace(/\n\s*\n/g, "\n") // Remove extra blank lines
+      .trim(); // Trim leading/trailing spaces
+  };
+
   const onSend = async () => {
+    if (!query.trim()) return;
     try {
       const userMessage = { role: "user", content: query };
       setHistory((prevHistory) => [...prevHistory, userMessage]);
@@ -24,7 +33,7 @@ const Query = () => {
 
       const botResponses = response.data.results.map((result) => ({
         role: "bot",
-        content: result.text,
+        content: cleanResponse(result.text),
       }));
       setHistory((prevHistory) => [...prevHistory, ...botResponses]);
 
