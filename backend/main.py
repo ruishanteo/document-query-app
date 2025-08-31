@@ -74,6 +74,7 @@ async def upload_document(file: UploadFile = File(...)):
 # Define the request body schema
 class QueryRequest(BaseModel):
     query: str
+    history: list[dict]
 
 # Query the vector database with a user query
 @app.post("/query/")
@@ -81,19 +82,18 @@ async def query_document(request: QueryRequest):
     client = weaviate.connect_to_local()
     collection = client.collections.use("Document")
 
-    # response = collection.query.near_text(query=request.query, limit=2)
-    # print(response)
-    results = []
-
-    # for obj in response.objects:
-    #     results.append(obj.properties)
+    conversation_context = "\n".join(
+        [f"{msg['role']}: {msg['content']}" for msg in request.history]
+    )
+    conversation_context += f"\nuser: {request.query}"
 
     generative_response = collection.generate.near_text(
-        query=request.query,
+        query=conversation_context,
         limit=2,
-        grouped_task="Write a concise response to the user to clarify the insurance policies."
+        grouped_task="Continue the conversation based on the context provided."
     )
 
+    results = []
     for idx, obj in enumerate(generative_response.generative.text.split("\n")):
         results.append({
             "id": idx + 1,

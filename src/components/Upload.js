@@ -22,7 +22,7 @@ const Upload = () => {
           },
         }
       );
-      alert("Document uploaded: " + response.data.id);
+      alert("Document uploaded successfully");
     } catch (error) {
       console.error("Error uploading document", error);
     }
